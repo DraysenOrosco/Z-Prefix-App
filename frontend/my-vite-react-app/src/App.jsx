@@ -4,10 +4,12 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Home from "./home.jsx";
 import Inventory from "./inventory.jsx";
 import Navbar from '../components/Navbar.jsx'
+import Login from "../components/Login.jsx";
 
 function App() {
   const [items, setItems] = useState([]);
-
+  const [userId, setUserId] = useState(null)
+  
   useEffect(() => {
     fetch('http://localhost:3000/items')
     .then(response => {
@@ -25,7 +27,8 @@ function App() {
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/inventory" element={<Inventory />} />
+        <Route path="/login" element={<Login onLogin={setUserId} /> } />
+        <Route path="/inventory" element={<Inventory userId={userId} />} />
       </Routes>
     </Router>
   )

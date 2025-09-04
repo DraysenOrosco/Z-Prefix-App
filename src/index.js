@@ -30,6 +30,27 @@ app.get('/items', (request, response) => {
     })
   })
 
+  app.post('/items', (req, res) => {
+    const{ name, description, quantity, user_id } = req.body;
+  
+    console.log('incoming POST / Items data')
+
+  if(!name || !description || quantity === undefined || !user_id){
+    return res.status(400).json({error: 'Missing Required Info'});
+  }
+
+  knex('items')
+  .insert({ name, description, quantity, user_id})
+  .returning('*')
+  .then(([newItem]) =>{
+    res.status(201).json(newItem);
+  })
+  .catch(error => {
+    console.error('Error creating item', error)
+    res.status(500).json({error: 'failed to create item'})
+  })
+})
+
   app.get('/users', (request, response) => {
     knex('users')
     .select('id', 'username', 'created_at')
