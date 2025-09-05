@@ -22,7 +22,9 @@ export default function Inventory({ userId }) {
     return (
     <div>
         <h1>Inventory Page</h1>
+        {canAddItems && (
         <NewItemForm userId={userId} onItemAdded={handleItemAdded} />
+        )}
         <div className='Inventory'>
             {items.length === 0 ? (
             <p>No items found...</p>
